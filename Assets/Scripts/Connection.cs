@@ -54,14 +54,11 @@ public class Connection : MonoBehaviour
 	public void OnSendButton()
 	{
 		SceneManager.LoadSceneAsync("main");
-		//SendString("GA");
 	}
 
     
     public static void SendString(string value)
 	{
-
-		
 		var data = Encoding.UTF8.GetBytes (value + "\r\n");
 		BluetoothLEHardwareInterface.WriteCharacteristic (_BA, ServiceUUID, Characteristic, data, data.Length, true, (characteristicUUID) => {
 
@@ -82,21 +79,13 @@ public class Connection : MonoBehaviour
 		_state = States.None;
 		_foundID = false;
 		_BA = null;
-		//SetUpGlovePanel.SetActive (false);
-		//ConnectPhasePanel.SetActive(true);
 	}
     void StartProcess ()
 	{
-		
-
 		Reset ();
 		BluetoothLEHardwareInterface.Initialize (true, false, () => {
-			
 			SetState (States.Scan, 0.1f);
-			
-
 		}, (error) => {
-			
 			BluetoothLEHardwareInterface.Log ("Error: " + error);
 		});
 	}

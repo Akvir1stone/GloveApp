@@ -53,16 +53,11 @@ public class DataScript : MonoBehaviour
     public static float minAve;
     public static float maxAve;
     public float delay = 1.5f;
-    //public TMP_Text AveText;
-    public static bool AveTextGO;
     public GameObject chButton;
     
-
-    // Start is called before the first frame update
     public void OnButtonMin()
     {        
         minAve = float.Parse(TextAnser1.text);
-        //TextAnser1.text = minAve.ToString();
         MinPanel.SetActive(false);
         MaxPanel.SetActive(true);
     }
@@ -70,7 +65,6 @@ public class DataScript : MonoBehaviour
     public void OnButtonMax()
     {        
         maxAve = float.Parse(TextAnser2.text);;
-        //TextAnser2.text = maxAve.ToString();
         ButtonPlay.SetActive(true);
     }
 
@@ -90,12 +84,6 @@ public class DataScript : MonoBehaviour
         SpawnObs.spawn = true;
         MovChanger.SetActive(true);
         chButton.SetActive(true);
-        //AveTextGO.SetActive(true);
-        //PlayerCrash.crash = false;
-        //SpawnObs.StartSpawn();
-        AveTextGO = true;
-        
-
     }
 
 
@@ -108,13 +96,8 @@ public class DataScript : MonoBehaviour
         ButtonPlay.SetActive(false);
         MovChanger.SetActive(false);
         chButton.SetActive(false);
-        AveTextGO = false;
-        //AveTextGO.SetActive(false);
-        //PlayerCrash.crash = true;
         SpawnObs.spawn = false;
     }
-
-    // Update is called once per frame
     void Update()
     {
         
@@ -123,7 +106,7 @@ public class DataScript : MonoBehaviour
                 timeout -= Time.deltaTime;
                 if(timeout <= 0f)
                 {
-                    timeout = 0.2f;
+                    timeout = 0.05f;
                     Connection.SendString("GA");
                     anse = Connection.receivedMess;
                     ans = anse.ToCharArray();
@@ -139,10 +122,10 @@ public class DataScript : MonoBehaviour
                     {
                         collector = collector + ans[i];
                         if (i == 0) sens = 0;
+                        // текстовое поле на работало с массивом, поэтому пришлось сделать отдельные переменные и с каждой работать отдельно
                         switch (collector.Substring(collector.Length - 4))
                         {
                             case ("AD1:"):
-                            //Status.text = collector.Substring(collector.Length - 5);
                             if (collector.Substring(collector.Length - 1) != ",") sens = 1;
                             break;
                             case ("AD2:"):
@@ -194,28 +177,27 @@ public class DataScript : MonoBehaviour
                             sensor8 = sensor8 + ans[i];
                             break;
                         }
-                        //dsensor1 = sensor1.Substring(1, sensor1.Length-5);
                         if(sensor1.Length >= 5) dsensor1 = sensor1.Substring(1, sensor1.Length-5);
-                        try { sen1 += (-sen1 + float.Parse(dsensor1))*0.2f;} catch{}
+                        try { sen1 += (-sen1 + float.Parse(dsensor1))*0.8f;} catch{}
                         if(sensor2.Length >= 5) dsensor2 = sensor2.Substring(1, sensor2.Length-5);
-                        try { sen2 += (-sen2 + float.Parse(dsensor2))*0.2f;} catch{}
+                        try { sen2 += (-sen2 + float.Parse(dsensor2))*0.8f;} catch{}
                         if(sensor3.Length >= 5) dsensor3 = sensor3.Substring(1, sensor3.Length-5);
-                        try { sen3 += (-sen3 + float.Parse(dsensor3))*0.2f;} catch{}
+                        try { sen3 += (-sen3 + float.Parse(dsensor3))*0.8f;} catch{}
                         if(sensor4.Length >= 5) dsensor4 = sensor4.Substring(1, sensor4.Length-5);
-                        try { sen4 += (-sen4 + float.Parse(dsensor4))*0.2f;} catch{}
+                        try { sen4 += (-sen4 + float.Parse(dsensor4))*0.8f;} catch{}
                         if(sensor5.Length >= 5) dsensor5 = sensor5.Substring(1, sensor5.Length-5);
-                        try { sen5 += (-sen5 + float.Parse(dsensor5))*0.2f;} catch{}
+                        try { sen5 += (-sen5 + float.Parse(dsensor5))*0.8f;} catch{}
                         if(sensor6.Length >= 5) dsensor6 = sensor6.Substring(1, sensor6.Length-5);
-                        try { sen6 += (-sen6 + float.Parse(dsensor6))*0.2f;} catch{}
+                        try { sen6 += (-sen6 + float.Parse(dsensor6))*0.8f;} catch{}
                         if(sensor7.Length >= 5) dsensor7 = sensor7.Substring(1, sensor7.Length-5);
-                        try { sen7 += (-sen7 + float.Parse(dsensor7))*0.2f;} catch{}
+                        try { sen7 += (-sen7 + float.Parse(dsensor7))*0.8f;} catch{}
                         if(sensor8.Length >= 5) dsensor8 = sensor8.Substring(1, sensor8.Length-2);
-                        try { sen8 += (-sen8 + float.Parse(dsensor8))*0.2f;} catch{}
+                        try { sen8 += (-sen8 + float.Parse(dsensor8))*0.8f;} catch{}
+                        // sen* это значения отдельных сенсоров и ave это значение которое используется в скрипте PlayerMovTouch
                         //ave = (sen1+sen2+sen3+sen4+sen5+sen6+sen7+sen8)/8;
                         ave = (sen2)/1;
                         TextAnser1.text = ave.ToString();
                         TextAnser2.text = ave.ToString();
-                        //AveText.text = ave.ToString();
                     }
                     collector = "";
                     
